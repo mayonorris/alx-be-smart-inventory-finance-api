@@ -11,6 +11,8 @@ class Supplier(models.Model):
 
     class Meta:
         ordering = ['name']
+        verbose_name = 'Supplier'
+        verbose_name_plural = 'Suppliers'
 
     def __str__(self):
         return self.name
@@ -26,6 +28,7 @@ class Customer(models.Model):
 
     class Meta:
         ordering = ['name']
-
+        verbose_name = 'Customer'
+        verbose_name_plural = 'Customers'
     def __str__(self):
         return self.name

@@ -11,6 +11,7 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'categories'
         ordering = ['name']
+        verbose_name = 'Category'
 
     def __str__(self):
         return self.name
@@ -35,7 +36,9 @@ class Product(models.Model):
     updated_at    = models.DateTimeField(auto_now=True)
 
     class Meta:
+        verbose_name_plural = 'products'
         ordering = ['name']
+        verbose_name = 'Product'
 
     def __str__(self):
         return f"{self.sku} — {self.name}"

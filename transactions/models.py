@@ -32,6 +32,8 @@ class Transaction(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+        verbose_name = 'Transaction'
+        verbose_name_plural = 'Transactions'
 
     def __str__(self):
         return f"{self.reference} — {self.type} — {self.product.name}"

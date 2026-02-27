@@ -1,3 +1,11 @@
+"""
+Reports service layer.
+
+All financial and inventory calculations live here.
+Views call these functions and return the results directly.
+No database models are defined in this app — all data comes
+from the inventory and transactions apps.
+"""
 from decimal import Decimal
 from django.db.models import Sum, F, ExpressionWrapper, DecimalField
 from inventory.models import Product
@@ -5,6 +13,15 @@ from transactions.models import Transaction
 
 
 def get_inventory_valuation():
+    """
+    Calculate total inventory value across all active products.
+
+    Uses weighted average cost stored on each product:
+        total = Σ (stock × unit_cost) per product
+
+    Returns:
+        Dict with total_inventory_value and per-product breakdown.
+    """
     products = Product.objects.filter(is_active=True).annotate(
         value=ExpressionWrapper(
             F('stock') * F('unit_cost'),
@@ -29,6 +46,15 @@ def get_inventory_valuation():
 
 
 def get_stock_summary():
+    """
+    Return current stock levels for all active products.
+
+    Includes stock_status (ok / warning / critical) based on
+    each product's reorder_level.
+
+    Returns:
+        List of dicts with stock info per product.
+    """
     products = Product.objects.select_related('category').filter(is_active=True)
     return [
         {
@@ -47,6 +73,19 @@ def get_stock_summary():
 
 
 def get_low_stock_items():
+    """
+    Return products at or near their reorder level.
+
+    Classification:
+        critical — stock <= reorder_level
+        warning  — stock <= reorder_level * 1.5
+
+    Suggested order quantity = (reorder_level * 2) - current_stock,
+    ensuring enough buffer stock after replenishment.
+
+    Returns:
+        List of dicts sorted by severity then stock level.
+    """
     products = Product.objects.filter(is_active=True)
     low = []
     for p in products:
@@ -66,6 +105,22 @@ def get_low_stock_items():
 
 
 def get_profit_report(date_from=None, date_to=None):
+    """
+    Calculate gross profit for a given date range.
+
+    Formulas:
+        Revenue = Σ (quantity × unit_price) for completed OUT transactions
+        COGS    = Σ (quantity × unit_cost)  for completed OUT transactions
+        Profit  = Revenue - COGS
+        Margin  = (Profit / Revenue) × 100
+
+    Args:
+        date_from: Start date (inclusive). None means no lower bound.
+        date_to:   End date (inclusive). None means no upper bound.
+
+    Returns:
+        Dict with revenue, COGS, gross_profit, and profit_margin.
+    """
     qs = Transaction.objects.filter(
         type=Transaction.TransactionType.OUT,
         status=Transaction.Status.COMPLETED,
