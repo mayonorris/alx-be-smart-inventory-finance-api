@@ -122,10 +122,20 @@ CORS_ALLOWED_ORIGINS = [
 
 # ── Spectacular (API docs) ────────────────────────────────────────────────────
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Smart Inventory & Financial Tracking API',
-    'DESCRIPTION': 'ALX Backend Capstone — inventory management with financial logic.',
+    'TITLE': 'Smart Inventory and Financial Tracking API',
+    'DESCRIPTION': 'ALX Backend Capstone project : Inventory management with financial logic.',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
+    'SECURITY': [{'BearerAuth': []}],
+    'COMPONENTS': {
+        'securitySchemes': {
+            'BearerAuth': {
+                'type': 'http',
+                'scheme': 'bearer',
+                'bearerFormat': 'JWT',
+            }
+        }
+    },
 }
 
 # ── Internationalisation ──────────────────────────────────────────────────────
