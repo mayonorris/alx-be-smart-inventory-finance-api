@@ -115,3 +115,38 @@ Financial rules are encapsulated within the **service layer**, ensuring separati
 git clone https://github.com/your-username/alx-be-smart-inventory-finance-api.git
 cd alx-be-smart-inventory-finance-api
 ```
+
+## API Endpoints (Planned and In Progress)
+
+- Authentication
+  - POST /api/auth/register/
+
+  - POST /api/auth/login/
+
+  - POST /api/auth/refresh/
+
+- Products
+  - GET /api/products/
+
+  - POST /api/products/
+
+  - GET /api/products/{id}/
+
+- Transactions
+  - POST /api/transactions/
+
+  - GET /api/transactions/
+
+- Reports
+  - GET /api/reports/stock-summary/
+
+  - GET /api/reports/inventory-valuation/
+
+  - GET /api/reports/profit/
+
+## Author
+
+Norris KADANGA
+Backend Developer | Statistician | Finance-Oriented Systems Builder
+
+ALX Backend Program – Capstone Project
