@@ -1,1 +1,1 @@
-web: gunicorn smart_inventory_api.wsgi --log-file -
+web: python manage.py migrate && gunicorn smart_inventory_api.wsgi --log-file -
