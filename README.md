@@ -1,5 +1,3 @@
-cat > README.md << 'EOF'
-
 # Smart Inventory & Financial Tracking API
 
 A Django REST Framework backend for managing inventory operations with integrated financial logic.
